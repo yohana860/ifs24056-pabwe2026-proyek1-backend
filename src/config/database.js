@@ -1,7 +1,11 @@
 import { Sequelize } from "sequelize";
-import sqlite3 from "sqlite3"; // Import sqlite3 secara langsung
 
-const storage = process.env.NODE_ENV === "production" 
+// Kita paksa selalu menggunakan :memory: jika dijalankan di server (bukan lokal)
+// atau jika tidak ada file database yang ditentukan.
+// Ini mencegah error "read-only file system" di SnapDeploy.
+const isProduction = process.env.NODE_ENV === "production" || process.env.SNAPDEPLOY === "true";
+
+const storage = isProduction 
   ? ":memory:" 
   : (process.env.DB_STORAGE || "./database.sqlite");
 
@@ -9,12 +13,8 @@ const sequelize = new Sequelize({
   dialect: "sqlite", 
   storage, 
   logging: false,
-  dialectOptions: {
-    // Paksa Sequelize menggunakan modul sqlite3 yang sudah diimpor
-    mode: sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
-  },
-  // Teruskan modul sqlite3 secara eksplisit ke Sequelize
-  dialectModule: sqlite3, 
+  // Hapus dialectOptions dan dialectModule karena SnapDeploy 
+  // biasanya sudah menangani sqlite3 dengan benar.
 });
 
 export default sequelize;
