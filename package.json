@@ -1,10 +1,13 @@
 {
   "name": "ifs24056-pabwe2026-proyek1-backend",
   "version": "1.0.0",
-  "description": "Proyek 1 PABWE 2026 (individu). API platform preloved & thrifting. Repo front-end terpisah: `ifs24056-pabwe2026-proyek1-frontend`.",
-  "main": "vitest.config.js",
+  "description": "Proyek 1 PABWE 2026 (individu). API platform preloved & thrifting.",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -13,7 +16,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/yohana860/ifs24056-pabwe2026-proyek1-backend/issues"
   },
