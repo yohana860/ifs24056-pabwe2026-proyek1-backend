@@ -17,60 +17,15 @@ const ITEMS = [
 ];
 
 export async function seedDatabase() {
-  // Menggunakan try-catch agar jika tabel belum ada, proses tidak crash
-  try {
-    await Favorite.destroy({ where: {} });
-  } catch (error) {
-    console.warn("Peringatan: Gagal menghapus data Favorites (mungkin tabel belum ada):", error.message);
-  }
-
-  try {
-    await Item.destroy({ where: {} });
-  } catch (error) {
-    console.warn("Peringatan: Gagal menghapus data Items:", error.message);
-  }
-
-  try {
-    await User.destroy({ where: {} });
-  } catch (error) {
-    console.warn("Peringatan: Gagal menghapus data Users:", error.message);
-  }
-
+  await Favorite.destroy({ where: {} });
+  await Item.destroy({ where: {} });
+  await User.destroy({ where: {} });
   const password = bcrypt.hashSync("demo123", 8);
-  
-  const a = await User.create({ 
-    name: "Demo Seller", 
-    email: "demo@nextowner.id", 
-    password, 
-    province: "Sumatera Utara", 
-    city: "Kabupaten Toba", 
-    address: "Jl. Sisingamangaraja No. 12, Balige" 
-  });
-  
-  const b = await User.create({ 
-    name: "Sinta Marpaung", 
-    email: "sinta@nextowner.id", 
-    password, 
-    province: "Sumatera Utara", 
-    city: "Kota Medan", 
-    address: "Jl. Gatot Subroto No. 45" 
-  });
-  
+  const a = await User.create({ name: "Demo Seller", email: "demo@nextowner.id", password, province: "Sumatera Utara", city: "Kabupaten Toba", address: "Jl. Sisingamangaraja No. 12, Balige" });
+  const b = await User.create({ name: "Sinta Marpaung", email: "sinta@nextowner.id", password, province: "Sumatera Utara", city: "Kota Medan", address: "Jl. Gatot Subroto No. 45" });
   const sellers = { a: a.id, b: b.id };
-  
   for (const [who, title, description, price, category, condition, province, city, address] of ITEMS) {
-    await Item.create({ 
-      sellerId: sellers[who], 
-      title, 
-      description, 
-      price, 
-      category, 
-      condition, 
-      province, 
-      city, 
-      address 
-    });
+    await Item.create({ sellerId: sellers[who], title, description, price, category, condition, province, city, address });
   }
-  
   return { users: 2, items: ITEMS.length };
 }
