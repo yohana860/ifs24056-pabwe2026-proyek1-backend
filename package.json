@@ -4,7 +4,7 @@
   "description": "Proyek 1 PABWE 2026 (individu). API platform preloved & thrifting.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node src/db/cli.js migrate && node src/db/cli.js seed && node src/server.js",
     "dev": "node --watch src/server.js",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
